@@ -58,13 +58,20 @@
     // Remplacez cette variable par votre propre clé API YouTube
     const API_KEY = 'AIzaSyChLlyKDYvirv8jconfYR_td08v1E8DYyE';
 
+    // Liste de mots-clés pour la recherche aléatoire
+    const keywords = ['funny', 'music', 'sports', 'travel', 'gaming'];
+
     // Fonction pour générer une vidéo aléatoire
     document.getElementById("generateBtn").addEventListener("click", function() {
-        // Effectuer la requête API pour récupérer une vidéo aléatoire
-        fetch(`https://www.googleapis.com/youtube/v3/videos?part=snippet&type=video&maxResults=1&chart=mostPopular&key=${API_KEY}`)
+        // Choisir un mot-clé aléatoire dans la liste
+        const randomKeyword = keywords[Math.floor(Math.random() * keywords.length)];
+
+        // Effectuer la requête API pour récupérer des vidéos basées sur le mot-clé aléatoire
+        fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${randomKeyword}&maxResults=1&type=video&key=${API_KEY}`)
             .then(response => response.json())
             .then(data => {
-                const videoId = data.items[0].id;
+                // Obtenir l'ID de la vidéo à partir des résultats de la recherche
+                const videoId = data.items[0].id.videoId;
                 const iframe = document.createElement("iframe");
                 iframe.src = `https://www.youtube.com/embed/${videoId}`;
                 iframe.setAttribute("allowfullscreen", "true");
