@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Générateur de Vidéo YouTube Aléatoire</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            text-align: center;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+        }
+        button {
+            padding: 15px 30px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        iframe {
+            margin-top: 20px;
+            border: none;
+            width: 560px;
+            height: 315px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Générateur de Vidéos YouTube Aléatoires</h1>
+    <button id="generateBtn">Générer une vidéo YouTube aléatoire</button>
+    <div id="videoContainer"></div>
+</div>
+
+<script>
+    // Remplacez cette variable par votre propre clé API YouTube
+    const API_KEY = 'AIzaSyChLlyKDYvirv8jconfYR_td08v1E8DYyE';
+
+    // Fonction pour générer une vidéo aléatoire
+    document.getElementById("generateBtn").addEventListener("click", function() {
+        // Effectuer la requête API pour récupérer une vidéo aléatoire
+        fetch(`https://www.googleapis.com/youtube/v3/videos?part=snippet&type=video&maxResults=1&chart=mostPopular&key=${API_KEY}`)
+            .then(response => response.json())
+            .then(data => {
+                const videoId = data.items[0].id;
+                const iframe = document.createElement("iframe");
+                iframe.src = `https://www.youtube.com/embed/${videoId}`;
+                iframe.setAttribute("allowfullscreen", "true");
+
+                // Remplacer le contenu du conteneur de vidéo
+                const videoContainer = document.getElementById("videoContainer");
+                videoContainer.innerHTML = '';  // Effacer la vidéo précédente
+                videoContainer.appendChild(iframe);
+            })
+            .catch(error => {
+                console.error('Erreur lors de l\'appel à l\'API YouTube :', error);
+            });
+    });
+</script>
+
+</body>
+</html>
