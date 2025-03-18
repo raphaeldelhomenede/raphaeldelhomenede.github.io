@@ -66,12 +66,13 @@
         // Choisir un mot-clé aléatoire dans la liste
         const randomKeyword = keywords[Math.floor(Math.random() * keywords.length)];
 
-        // Effectuer la requête API pour récupérer des vidéos basées sur le mot-clé aléatoire
-        fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${randomKeyword}&maxResults=1&type=video&key=${API_KEY}`)
+        // Effectuer la requête API pour récupérer plusieurs vidéos basées sur le mot-clé aléatoire
+        fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${randomKeyword}&maxResults=5&type=video&key=${API_KEY}`)
             .then(response => response.json())
             .then(data => {
-                // Obtenir l'ID de la vidéo à partir des résultats de la recherche
-                const videoId = data.items[0].id.videoId;
+                // Choisir une vidéo aléatoire parmi les résultats obtenus
+                const randomVideo = data.items[Math.floor(Math.random() * data.items.length)];
+                const videoId = randomVideo.id.videoId;
                 const iframe = document.createElement("iframe");
                 iframe.src = `https://www.youtube.com/embed/${videoId}`;
                 iframe.setAttribute("allowfullscreen", "true");
