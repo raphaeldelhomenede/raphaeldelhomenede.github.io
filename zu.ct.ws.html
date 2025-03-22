@@ -23,28 +23,20 @@
     <script>
         document.getElementById("url-form").addEventListener("submit", function(event) {
             event.preventDefault();
-
             const originalUrl = document.getElementById("original-url").value;
-
-            // Effectuer une requête POST au serveur
-            fetch('/get-link', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ "original-url": originalUrl })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    document.getElementById("shortened-url").href = data.shortenedUrl;
-                    document.getElementById("shortened-url").innerText = data.shortenedUrl;
+            if (originalUrl && originalUrl.startsWith('https://zu.ct.ws/')) {
+                const shortId = originalUrl.split('zu.ct.ws/')[1];
+                if (shortId && shortId.length === 11) {
+                    const shortenedUrl = `https://zu.ct.ws/php/stats.php?shorten_url=${shortId}`;
+                    document.getElementById("shortened-url").href = shortenedUrl;
+                    document.getElementById("shortened-url").innerText = shortenedUrl;
                     document.getElementById("result").style.display = "block";
                 } else {
-                    alert(data.error);
+                    alert("L'ID après 'zu.ct.ws/' doit contenir exactement 11 caractères.");
                 }
-            })
-            .catch(error => console.error('Erreur:', error));
+            } else {
+                alert("Veuillez entrer une URL valide qui commence par 'https://zu.ct.ws/'");
+            }
         });
     </script>
 
