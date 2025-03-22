@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>zu.ct.ws</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Trouver plus de données sur les liens raccourcis de zu.ct.ws</h1>
+        <form id="url-form">
+            <label for="original-url">Entrez l'URL à renseigner :</label>
+            <input type="text" id="original-url" placeholder="Entrez une URL" required>
+            <button type="submit">En savoir plus sur ce lien</button>
+        </form>
+
+        <div id="result" class="result">
+            <p>Voici le lien de ce que vous cherchez :</p>
+            <a href="#" id="shortened-url" target="_blank"></a>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("url-form").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const originalUrl = document.getElementById("original-url").value;
+
+            // Effectuer une requête POST au serveur
+            fetch('/get-link', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ "original-url": originalUrl })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById("shortened-url").href = data.shortenedUrl;
+                    document.getElementById("shortened-url").innerText = data.shortenedUrl;
+                    document.getElementById("result").style.display = "block";
+                } else {
+                    alert(data.error);
+                }
+            })
+            .catch(error => console.error('Erreur:', error));
+        });
+    </script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 100%;
+            max-width: 400px;
+            box-sizing: border-box;
+            margin: 0 auto; /* Centrage horizontal */
+            margin-top: 50px; /* Espace en haut pour éviter que le formulaire touche le bord */
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .result {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .result a {
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        .result a:hover {
+            text-decoration: underline;
+        }
+
+        /* Media Queries pour rendre le design responsive */
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+                width: 90%;
+            }
+
+            h1 {
+                font-size: 1.2rem;
+            }
+
+            input[type="text"],
+            button {
+                font-size: 0.9rem;
+                padding: 10px;
+            }
+        }
+    </style>
+</body>
+</html>
+
+
+<!-- <!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>zu.ct.ws</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Trouver plus de données sur les liens raccourcis de zu.ct.ws</h1>
+        <form id="url-form">
+            <label for="original-url">Entrez l'URL à renseigner :</label>
+            <input type="text" id="original-url" placeholder="Entrez une URL" required>
+            <button type="submit">En savoir plus sur ce lien</button>
+        </form>
+
+        <div id="result" class="result">
+            <p>Voici le lien de ce que vous cherchez :</p>
+            <a href="#" id="shortened-url" target="_blank"></a>
+        </div>
+    </div>
+</body>
+</html>
+
+<script>
+    document.getElementById("url-form").addEventListener("submit", function(event) {
+        event.preventDefault();
+        const originalUrl = document.getElementById("original-url").value;
+        if (originalUrl && originalUrl.startsWith('https://zu.ct.ws/')) {
+            const shortId = originalUrl.split('zu.ct.ws/')[1];
+            if (shortId && shortId.length === 11) {
+                const shortenedUrl = `https://zu.ct.ws/php/stats.php?shorten_url=${shortId}`;
+                document.getElementById("shortened-url").href = shortenedUrl;
+                document.getElementById("shortened-url").innerText = shortenedUrl;
+                document.getElementById("result").style.display = "block";
+            } else {
+                alert("L'ID après 'zu.ct.ws/' doit contenir exactement 11 caractères.");
+            }
+        } else {
+            alert("Veuillez entrer une URL valide qui commence par 'https://zu.ct.ws/'");
+        }
+    });
+</script>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 100%;
+    max-width: 400px;
+    box-sizing: border-box;
+    margin: 0 auto; /* Centrage horizontal */
+    margin-top: 50px; /* Espace en haut pour éviter que le formulaire touche le bord */
+}
+
+h1 {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.result {
+    display: none;
+    margin-top: 20px;
+}
+
+.result a {
+    text-decoration: none;
+    color: #007bff;
+}
+
+.result a:hover {
+    text-decoration: underline;
+}
+
+/* Media Queries pour rendre le design responsive */
+@media (max-width: 600px) {
+    .container {
+        padding: 20px;
+        width: 90%;
+    }
+
+    h1 {
+        font-size: 1.2rem;
+    }
+
+    input[type="text"],
+    button {
+        font-size: 0.9rem;
+        padding: 10px;
+    }
+}
+</style> -->
